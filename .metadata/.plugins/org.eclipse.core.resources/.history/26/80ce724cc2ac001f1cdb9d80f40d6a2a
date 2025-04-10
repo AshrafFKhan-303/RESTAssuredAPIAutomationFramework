@@ -1,0 +1,93 @@
+package APIAutomation.EcommerceE2EAPITesting;
+
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import static io.restassured.RestAssured.*;
+
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import APIAutomation.EcommerceE2EAPITesting.POJOSerelizationJSON.LoginRequest;
+import APIAutomation.EcommerceE2EAPITesting.POJOSerelizationJSON.LoginResponse;
+import APIAutomation.EcommerceE2EAPITesting.POJOSerelizationJSON.OrderDetals;
+import APIAutomation.EcommerceE2EAPITesting.POJOSerelizationJSON.Orders;
+import APIAutomation.JSONData.ReusableMethods;
+
+public class EcommerceAPITest {
+
+	public static void main(String[] args) {
+ 
+		RequestSpecification req = new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com")
+		.setContentType(ContentType.JSON).build();
+		
+//----- Serialization	by Setter Getter method POJO class ------------	
+		LoginRequest loginRequest = new LoginRequest();
+		loginRequest.setUserEmail("ashrafkhan78625@yahoo.com");
+		loginRequest.setUserPassword("Arahul@123#");
+	
+//----- POST Login API ------------------------------------------------		
+		RequestSpecification reqLogin = given().log().all().spec(req)
+		.body(loginRequest);
+		
+//----- Deserialization by Custom LoginResponse Class ---------------------		
+		LoginResponse loginRes = reqLogin.when()
+		.post("/api/ecom/auth/login").
+		then().log().all().extract().response().as(LoginResponse.class);
+
+		String beaerToken = loginRes.getToken();
+		String userId = loginRes.getUserId();
+		System.out.println("Token: "+loginRes.getToken());
+		System.out.println("UserId: "+loginRes.getUserId());
+
+//----- POST Create Product API ----------------------------------------
+		RequestSpecification addProductReq = new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com")
+		.addHeader("authorization", beaerToken).build();
+//---Note: here paylod in form of form parameter so use pram() on place of body()		
+		RequestSpecification reqAddProduct = given().log().all().spec(addProductReq).param("productName", "Laptop")
+		.param("productAddedBy", userId)
+		.param("productCategory", "fashion")
+		.param("productSubCategory", "shirt")
+		.param("productPrice", "11500")
+		.param("productDescription", "Lenovo")
+		.param("productFor", "men")
+		.multiPart("productImage", new File("C:\\Users\\Am\\Desktop\\kittu.png"));
+//In order to send file from REST Assued use multiPart() method		
+				
+		String addProductRes = reqAddProduct.when().post("/api/ecom/product/add-product").
+		then().log().all().extract().response().asString();
+	
+		JsonPath jp = ReusableMethods.rowToJson(addProductRes);
+		String productId = jp.get("productId");
+		System.out.println("ProductId: "+productId);
+	
+//------ POST Order API -------- Create Order ---------------------
+		RequestSpecification createOrderBaseeq = new RequestSpecBuilder().setBaseUri("https://rahulshettyacademy.com")
+				.addHeader("authorization", beaerToken)
+				.setContentType(ContentType.JSON).build();
+		
+//----- Serialization	by Setter Getter method POJO class ------------		
+		OrderDetals orderDetals = new OrderDetals();
+		orderDetals.setCountry("India");
+		orderDetals.setProductOrderId(productId);
+		
+		List<OrderDetals> orderDetalsList = new ArrayList<OrderDetals>();
+		orderDetalsList.add(orderDetals);
+		
+		Orders orders = new Orders();
+		orders.setOrders(orderDetalsList);
+		
+		RequestSpecification createOrderequest = given().log().all().spec(createOrderBaseeq)
+		.body(orders);
+		
+		String orderespnse = when().post("/api/ecom/order/create-order").
+		then().log().all().extract().response().asString();
+	
+		System.out.print("orderespnse: "+ orderespnse); 
+	 }
+
+}

@@ -1,0 +1,92 @@
+vpackage RESTAssuredAPIProject.APIAutomation.RESTAssuredTesting;
+
+import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
+import org.testng.Assert;
+
+import APIAutomation.JSONData.PayloadJson;
+import APIAutomation.JSONData.ReusableMethods;
+
+public class BasicRestAssured {
+
+	public static void main(String[] args) {
+		
+	//Validate if Add Place API is working s expected	
+	//given - All input details
+	//when - Submit the API
+	//then - Validate the API response	
+		
+//Add Place -> Update Place with the new Address -> Get place to validate if now address is present in response
+		
+//POST Method --------- POST Add Place API		
+	RestAssured.baseURI = "https://rahulshettyacademy.com";
+	String response = given().log().all().queryParam("key", "qaclick123")
+	.header("Content-Type", "application/json")
+	.body(PayloadJson.getAddPlaceJSON()).
+	when().post("maps/api/place/add/json").
+	then().assertThat().statusCode(200).body("scope", equalTo("APP"))
+	.header("server", "Apache/2.4.52 (Ubuntu)").extract().response().asString();
+	
+	System.out.println("API Response: "+response);
+	
+//Defined Custom Class and Reusble methods   
+	 JsonPath getRes = ReusableMethods.rowToJson(response);
+	 String placeId = getRes.getString("place_id");
+	  
+	
+//Parse json API response --------------------
+//	JsonPath jp = new JsonPath(response);
+//	String placeId = jp.getString("place_id");
+
+	System.out.println("placeId: "+placeId);
+	
+	
+//PUT Method --------- Update Add Place API	
+	String address = "20, walk city, UAE 03";
+	
+	String putRes = given().log().all()
+	.queryParam("key", "qaclick123")
+	.header("Content-Type", "application/json")
+	.body("{\r\n" +
+			"\"place_id\":\""+placeId+"\", \r\n" + 
+	   		"\"address\": \""+address+"\",\r\n" + 
+			"\"key\":\"qaclick123\"\r\n"+
+           "}").
+	when()
+	.put("maps/api/place/add/json").
+	then()
+	.assertThat()
+	.log().all()
+	.statusCode(200).extract().response().asString();
+	//.body("msg", equalTo("Address successfully updated"));
+	
+	System.out.println("PUT Response: "+putRes);
+//API not publishing response
+	
+//GET Method --------- Get the updated Add Place API entry
+//Note : Always in GET() method header and body not requied only query parmeter and entry id  	
+  String getPlaceAPI = given().log().all()
+	.queryParam("key", "qaclick123")
+	.queryParam("place_id", placeId).
+	when().get("maps/api/place/add/json").
+	then().assertThat().log().all().extract().response().asString();
+	
+//Defined Custom Class and Reusble methods   
+//  JsonPath getRes = ReusableMethods.rowToJson(getPlaceAPI);
+//  String updatedAddress = getRes.getString("address");
+  
+//	JsonPath getRes = new JsonPath(getPlaceAPI);
+//    String updatedAddress = getRes.getString("address");    
+    System.out.println("updatedAddress: "+getPlaceAPI);
+
+//API not publishing response
+//Assert TestNG Assert 
+    //Assert.assertEquals(updatedAddress, address);
+    
+    
+  }
+}

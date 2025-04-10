@@ -1,0 +1,24 @@
+INDEX VERSION 1.131+C:\Users\Am\RESTAssuredAPIProject\.metadata\.plugins\org.eclipse.jdt.core
+2093031233.index
+688019734.index
+559505505.index
+528672625.index
+4017272954.index
+3600063904.index
+1434789482.index
+1061387379.index
+313435388.index
+2514211069.index
+3693840484.index
+2434873600.index
+2187962643.index
+1147197789.index
+3097396709.index
+1903216252.index
+3806589967.index
+3968539210.index
+3638684891.index
+1753413312.index
+3961820761.index
+1617890236.index
+401870362.index

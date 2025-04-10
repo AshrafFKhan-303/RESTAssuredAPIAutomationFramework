@@ -1,0 +1,8 @@
+package APIAutomation.EcommerceE2EAPITesting.POJOSerelizationJSON;
+
+public class OrderDetals {
+
+	String country;
+	String productOrderId;
+	
+}

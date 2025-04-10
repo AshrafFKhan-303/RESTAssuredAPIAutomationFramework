@@ -1,0 +1,8 @@
+package APIAutomation.EcommerceE2EAPITesting.POJOSerelizationJSON;
+
+public class Orders {
+
+	private List<OrderDetals> orders;
+	
+	
+}

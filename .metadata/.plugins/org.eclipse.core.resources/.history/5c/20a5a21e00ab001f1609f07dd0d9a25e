@@ -1,0 +1,5 @@
+package APIAutomation.OAUThTokenGen;
+
+public class GetCourseDetails {
+
+}

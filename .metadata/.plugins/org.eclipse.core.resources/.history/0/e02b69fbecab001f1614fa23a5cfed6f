@@ -1,0 +1,5 @@
+package APIAutomation.EcommerceE2EAPITesting.POJOSerelizationJSON;
+
+public class LoginResponse {
+
+}

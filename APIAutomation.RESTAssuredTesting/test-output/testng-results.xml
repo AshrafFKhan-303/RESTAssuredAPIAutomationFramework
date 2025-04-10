@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="3" passed="3" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2024-11-22T12:13:42 IST" name="Default suite" finished-at="2024-11-22T12:13:55 IST" duration-ms="12260">
+    <groups>
+    </groups>
+    <test started-at="2024-11-22T12:13:42 IST" name="Default test" finished-at="2024-11-22T12:13:55 IST" duration-ms="12260">
+      <class name="RESTAssuredAPIProject.APIAutomation.RESTAssuredTesting.DynamicJSONParse">
+        <test-method signature="addBook(java.lang.String,java.lang.String)[pri:0, instance:RESTAssuredAPIProject.APIAutomation.RESTAssuredTesting.DynamicJSONParse@55183b20]" started-at="2024-11-22T12:13:43 IST" name="addBook" data-provider="BookData" finished-at="2024-11-22T12:13:54 IST" duration-ms="11164" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[xyzas]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[2212]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- addBook -->
+        <test-method signature="addBook(java.lang.String,java.lang.String)[pri:0, instance:RESTAssuredAPIProject.APIAutomation.RESTAssuredTesting.DynamicJSONParse@55183b20]" started-at="2024-11-22T12:13:54 IST" name="addBook" data-provider="BookData" finished-at="2024-11-22T12:13:54 IST" duration-ms="397" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[xyztc]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[2213]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- addBook -->
+        <test-method signature="addBook(java.lang.String,java.lang.String)[pri:0, instance:RESTAssuredAPIProject.APIAutomation.RESTAssuredTesting.DynamicJSONParse@55183b20]" started-at="2024-11-22T12:13:54 IST" name="addBook" data-provider="BookData" finished-at="2024-11-22T12:13:55 IST" duration-ms="366" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[xyzyt]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[2214]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- addBook -->
+      </class> <!-- RESTAssuredAPIProject.APIAutomation.RESTAssuredTesting.DynamicJSONParse -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

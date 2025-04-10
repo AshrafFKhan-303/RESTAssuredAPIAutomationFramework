@@ -1,0 +1,61 @@
+package RESTAssuredAPIProject.APIAutomation.RESTAssuredTesting;
+
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import APIAutomation.JSONData.PayloadJson;
+import APIAutomation.JSONData.ReusableMethods;
+import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+
+import static io.restassured.RestAssured.*;
+public class DynamicJSONParse {
+
+//	@Test
+//	public void addBook() {
+//		
+//		RestAssured.baseURI="http://216.10.245.166";
+//		String addBookPOST = given()
+//		.header("Content-Type", "application/json")
+//	
+////------- Passing JSON - Payload value Dynamically by custom method 	
+//		.body(PayloadJson.AddBook("xyzbd", "2266")).
+//		when().post("/Library/Addbook.php").
+//		then().assertThat().statusCode(200)
+//		.extract().response().asString();
+//		
+//		JsonPath jp = ReusableMethods.rowToJson(addBookPOST);
+//		String id = jp.get("ID");
+//		System.out.println("id: "+id);
+//	
+//	}
+	
+//------ DataProvider Annotation get multiple input parameters in JSON Payload value	
+	@Test(dataProvider="BookData")
+	public void addBook(String isbn, String aisle) {
+		
+		RestAssured.baseURI="http://216.10.245.166";
+		String addBookPOST = given()
+		.header("Content-Type", "application/json")
+	
+//------- Passing JSON - Payload value Dynamically 
+//------- by custom method - getting by DataProvider Annotation 	
+		.body(PayloadJson.AddBook(isbn, aisle)).
+		when().post("/Library/Addbook.php").
+		then().assertThat().statusCode(200)
+		.extract().response().asString();
+		
+    		JsonPath jp = ReusableMethods.rowToJson(addBookPOST);
+		String id = jp.get("ID");
+		System.out.println("idv: "+id);
+	
+	}
+
+	
+//----------- Data Provider by Multidymentional Array ----------
+	@DataProvider(name="BookData")
+	public Object[][] getData() {
+	  return new Object[][]{{"xyzas","2212"},{"xyztc","2213"},{"xyzyt","2214"}};
+	}
+	
+}
